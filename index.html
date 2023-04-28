@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,50 +8,56 @@
     <link rel="stylesheet" href="index.css">
     <title>Tip Calculator</title>
 </head>
+
 <body>
-    
+
     <div id="monitor">
         <div id="bezel">
-          <div id="crt" class="off" onClick="handleClick(event)"> 
-            <div class="scanline"></div>
-            <div class="terminal">
-              <div class="terminal-inner">
-                <h1>Tip Calculator</h1>
-              </div>
-              <div class="container">
-                <div class="form-group">
-                  <label for="billAmount">Bill Amount:</label>
-                  <input type="text" id="billAmount" pattern="[0-9]+(\.[0-9]+)?" max="25" oninput="validity.valid||(value='');">
+            <div id="crt" class="off" onClick="handleClick(event)">
+                <div class="scanline"></div>
+                <div class="terminal">
+                    <div class="terminal-inner">
+                        <h1>Tip Calculator</h1>
+                    </div>
+                    <div class="container">
+                        <div class="form-group">
+                            <label for="billAmount">Bill Amount:</label>
+                            <input type="text" id="billAmount" pattern="[0-9]+(\.[0-9]+)?" max="25"
+                                oninput="validity.valid||(value='');">
+                        </div>
+                        <div class="form-group">
+                            <label for="numPeople">Number of People:</label>
+                            <input type="text" id="numPeople" pattern="[0-9]+(\.[0-9]+)?" max="25"
+                                oninput="validity.valid||(value='');">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipPercentage">Tip Percentage:</label>
+                            <input type="range" id="tipPercentage" min="0" max="2" step="1" value="0"
+                                onchange="updateEmoticon()" />
+                            <p id="emoticon" class="slider-emoticon">Hold M1 to Slide</p>
+                        </div>
+                        <div class="buttons-container">
+                            <button class="calctip" onclick="calculateTip()">Calculate Tip</button>
+                            <button class="reset" onclick="resetCalculator()">Reset</button>
+                        </div>
+                        <div class="amounts-container">
+                            <div id="tipAmount"></div>
+                            <div id="totalAmount"></div>
+                            <div id="splitAmount"></div>
+                            <div class="signature-group">
+                                <label class="signature-label" for="signature">Signature:</label>
+                                <input type="text" id="signature" placeholder="Press enter when done"
+                                    onkeypress="if (event.key === 'Enter') handleSignatureInput();">
+                                <span class="signature-display"></span>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="numPeople">Number of People:</label>
-                  <input type="text" id="numPeople" pattern="[0-9]+(\.[0-9]+)?" max="25" oninput="validity.valid||(value='');">
-                </div>
-                <div class="form-group">
-                  <label for="tipPercentage">Tip Percentage:</label>
-                  <input type="range" id="tipPercentage" min="0" max="2" step="1" value="0" onchange="updateEmoticon()" />
-                  <p id="emoticon" class="slider-emoticon">Hold M1 to Slide</p>
-                </div>
-                <div class="buttons-container">
-                    <button class="calctip" onclick="calculateTip()">Calculate Tip</button>
-                    <button class="reset" onclick="resetCalculator()">Reset</button>
-                  </div>                  
-                <div class="amounts-container">
-                    <div id="tipAmount"></div>
-                    <div id="totalAmount"></div>
-                    <div id="splitAmount"></div>
-                    <div class="signature-group">
-                        <label class="signature-label" for="signature">Signature:</label>
-                        <input type="text" id="signature" placeholder="Press enter when done" onkeypress="if (event.key === 'Enter') handleSignatureInput();">
-                        <span class="signature-display"></span>
-                      </div>
-                                           
-                  </div>                 
             </div>
-          </div>
         </div>
-      </div>      
-      
-<script src="index.js"></script>
+
+        <script src="index.js"></script>
 </body>
+
 </html>
