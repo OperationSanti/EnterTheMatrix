@@ -86,3 +86,11 @@ function resetCalculator() {
     document.getElementById("signature").value = "";
     document.getElementById("signature").style.display = "block";
 }
+
+function isNumberKey(evt) {
+    const charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 46) {
+        return false;
+    }
+    return true;
+}
