@@ -1,64 +1,276 @@
-<!DOCTYPE html>
-<html lang="en">
+body {
+    background: black;
+    height: 100vh;
+    width: 100vw;
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Tip Calculator</title>
-</head>
 
-<body>
+input[type="text"] {
+    background-color: transparent;
+    color: rgb(59, 221, 19);
+    border: 1px solid green;
+    transition: filter 0.2s ease-in-out;
+}
 
-    <div id="monitor">
-        <div id="bezel">
-            <div id="crt" class="off" onClick="handleClick(event)">
-                <div class="scanline"></div>
-                <div class="terminal">
-                    <div class="terminal-inner">
-                        <h1>Tip Calculator</h1>
-                    </div>
-                    <div class="container">
-                        <div class="form-group">
-                            <label for="billAmount">Bill Amount:</label>
-                            <input type="text" id="billAmount" pattern="[0-9]+(\.[0-9]+)?"
-                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46;">
-                        </div>
-                        <div class="form-group">
-                            <label for="numPeople">Number of People:</label>
-                            <input type="text" id="numPeople" pattern="[0-9]+(\.[0-9]+)?"
-                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46;">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="tipPercentage">Tip Percentage:</label>
-                            <input type="range" id="tipPercentage" min="0" max="2" step="1" value="0"
-                                onchange="updateEmoticon()" />
-                            <p id="emoticon" class="slider-emoticon">Hold M1 to Slide</p>
-                        </div>
-                        <div class="buttons-container">
-                            <button class="calctip" onclick="calculateTip()">Calculate Tip</button>
-                            <button class="reset" onclick="resetCalculator()">Reset</button>
-                        </div>
-                        <div class="amounts-container">
-                            <div id="tipAmount"></div>
-                            <div id="totalAmount"></div>
-                            <div id="splitAmount"></div>
-                            <div class="signature-group">
-                                <label class="signature-label" for="signature">Signature:</label>
-                                <input type="text" id="signature" placeholder="Press enter when done"
-                                    onkeypress="if (event.key === 'Enter') handleSignatureInput();">
-                                <span class="signature-display"></span>
-                            </div>
+.calctip {
+    margin-top: 5px;
+    background-color: transparent;
+    color: rgb(59, 221, 19);
+    border: 1px solid green;
+    transition: filter 0.2s ease-in-out;
+    padding: 9px 9px;
+}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+input[type="text"]:active {
+    filter: invert(1);
+}
 
-        <script src="index.js"></script>
-</body>
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
 
-</html>
+.form-group label {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.form-group input[type="text"] {
+    flex: 1;
+    height: 30px;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group label,
+.form-group input {
+    width: 100%;
+    max-width: 300px;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(59, 221, 19);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.terminal-inner {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#crt:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(to bottom,
+            rgba(3, 61, 11, 0.082) 50%,
+            rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 8px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+@keyframes textShadow {
+    0% {
+        text-shadow: 0.4389924193300864px 0 1px rgba(0, 30, 255, 0.5),
+            -0.4389924193300864px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+    }
+
+    5% {
+        text-shadow: 2.7928974010788217px 0 1px rgba(0, 30, 255, 0.5),
+            -2.7928974010788217px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+    }
+}
+
+.scanline {
+    width: 100%;
+    height: 100px;
+    z-index: 8;
+    background: linear-gradient(0deg,
+            rgba(7, 241, 46, 0.63) 0%,
+            rgba(12, 245, 51, 0.2) 10%,
+            rgba(9, 214, 36, 0.753) 70%);
+    opacity: 0.1;
+    position: absolute;
+    bottom: 100%;
+    animation: scanline 10s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        bottom: 100%;
+    }
+
+    80% {
+        bottom: 100%;
+    }
+
+    100% {
+        bottom: 0%;
+    }
+}
+
+#screen {
+    position: relative;
+    width: 100%;
+    width: 100vw;
+    height: 100vh;
+    border: 30px solid transparent;
+    border-image-source: url(./bezel.png);
+    border-image-slice: 30 fill;
+    border-image-outset: 0;
+    overflow: hidden;
+}
+
+@import url("https://fonts.googleapis.com/css?family=VT323&display=swap");
+
+.terminal {
+    font-family: "VT323", monospace;
+    text-transform: uppercase;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#input {
+    position: relative;
+    caret-color: transparent;
+}
+
+h1,
+p {
+    color: rgb(59, 221, 19);
+}
+
+.amounts-container {
+    margin-top: 20px;
+}
+
+input[type="text"]#tipPercentage::after {
+    content: "%";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.slider-emoticon {
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background-image: linear-gradient(to right,
+            rgb(59, 221, 19) 0%,
+            rgb(59, 221, 19) 20%,
+            transparent 20%,
+            transparent 40%,
+            rgb(59, 221, 19) 40%,
+            rgb(59, 221, 19) 60%,
+            transparent 60%,
+            transparent 80%,
+            rgb(59, 221, 19) 80%);
+    background-color: transparent;
+    border: 1px solid rgba(59, 221, 19, 0.5);
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(59, 221, 19);
+    border: 1px solid green;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(59, 221, 19);
+    border: 1px solid green;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.signature {
+    margin-top: 1em;
+}
+
+
+.signature-container {
+    display: flex;
+    align-items: center;
+}
+
+.signature-display {
+    margin-left: 1em;
+}
+
+.signature-group {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-top: 1em;
+}
+
+.signature-label {
+    margin-right: 10px;
+}
+
+.reset {
+    margin-top: 5px;
+    background-color: transparent;
+    color: rgb(59, 221, 19);
+    border: 1px solid green;
+    transition: filter 0.2s ease-in-out;
+    padding: 9px 9px;
+    margin-left: 10px;
+}
+
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
